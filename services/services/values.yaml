@@ -1,0 +1,32 @@
+appName: my-service
+
+replicaCount: 2
+
+image:
+  repository: your-registry/my-service
+  tag: "latest"
+  pullPolicy: IfNotPresent  # Image pull policy
+
+service:
+  type: ClusterIP  # Service type (LoadBalancer, ClusterIP, NodePort)
+  port: 8000  # Cluster-wide service port
+  targetPort: 8000  # Port the container listens on
+  nodePort: 30008  # Node port if type is NodePort or LoadBalancer
+
+# Extra environment variables for the container (list of name/value pairs)
+env: []
+# env:
+#   - name: DATABASE_URL
+#     value: "sqlite:////data/db.sqlite3"
+
+# Persistent volume mounted into the container (optional)
+persistence:
+  enabled: false
+  size: 1Gi
+  mountPath: /data
+
+# Istio VirtualService (optional)
+istio:
+  enabled: true
+  host: api.vamsipothireddy.com  # Hostname the VirtualService responds on
+  gateway: istio-system/ingressgateway  # Gateway the VirtualService binds to
