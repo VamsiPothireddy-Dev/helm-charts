@@ -25,10 +25,12 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.service.targetPort }}
-        {{- with .Values.env }}
         env:
+          {{- with .Values.env }}
           {{- toYaml . | nindent 10 }}
-        {{- end }}
+          {{- end }}
+          - name: IMAGE_TAG
+            value: {{ .Values.image.tag | quote }}
         {{- if .Values.persistence.enabled }}
         volumeMounts:
         - name: data
