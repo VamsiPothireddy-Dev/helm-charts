@@ -10,9 +10,19 @@ spec:
     - {{ .Values.istio.gateway | quote }}
   http:
     - name: default
+      {{- if .Values.istio.pathPrefix }}
+      match:
+        - uri:
+            exact: {{ .Values.istio.pathPrefix | quote }}
+        - uri:
+            prefix: {{ printf "%s/" .Values.istio.pathPrefix | quote }}
+      rewrite:
+        uri: /
+      {{- else }}
       match:
         - uri:
             prefix: /
+      {{- end }}
       route:
         - destination:
             host: {{ .Values.appName }}-service.{{ .Release.Namespace }}.svc.cluster.local

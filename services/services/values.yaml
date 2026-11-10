@@ -30,3 +30,4 @@ istio:
   enabled: true
   host: api.vamsipothireddy.com  # Hostname the VirtualService responds on
   gateway: istio-system/ingressgateway  # Gateway the VirtualService binds to
+  pathPrefix: ""  # e.g. "/trade" strips the prefix before forwarding to the app
